@@ -1,0 +1,89 @@
+[project]
+name = "rec-helper"
+version = "0.2.0"
+description = "臺大醫院研究倫理委員會（NTUH REC）送審資料助手：一份研究資料 → e-REC 線上填寫單、官方 Word 附件、PDF 與版面檢查，涵蓋新案到結案。"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "rec-helper contributors" }]
+requires-python = ">=3.11"  # tomllib
+keywords = ["irb", "rec", "ethics-review", "ntuh", "human-subjects-research", "docx", "form-filling"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Healthcare Industry",
+    "Intended Audience :: Science/Research",
+    "Natural Language :: Chinese (Traditional)",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Office/Business",
+    "Topic :: Scientific/Engineering :: Medical Science Apps.",
+]
+dependencies = [
+    "python-docx",
+    "pdf2image",
+    "pillow",
+    "pypdf",            # read a protocol given as PDF (rech consistency / precheck / refs)
+]
+
+[project.optional-dependencies]
+pdf = ["pymupdf"]       # rech stamp on PDF files (DOCX stamping needs nothing extra)
+
+[project.scripts]
+rech = "rec_helper.cli:main"
+rec-helper = "rec_helper.cli:main"
+
+# Institution packs. A third-party pack registers its own package here:
+#   [project.entry-points."rec_helper.institutions"]
+#   myhosp = "rec_pack_myhosp"        # package folder holding profile.toml + forms.py
+[project.entry-points."rec_helper.institutions"]
+ntuh = "rec_helper.institutions.ntuh"
+
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["rec_helper"]
+
+# The Claude Code skill ships inside the wheel so `rech skill` can install it into a study folder.
+[tool.hatch.build.targets.wheel.force-include]
+".claude/skills/rec" = "rec_helper/skill"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/rec_helper",
+    "/.claude/skills/rec",
+    "/tests",
+    "/docs",
+    "/README.md",
+    "/LICENSE",
+    "/CHANGELOG.md",
+    "/Makefile",
+]
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "ruff",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+extend-exclude = ["templates", "output"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "B", "I"]
+# Form text is long CJK literals; wrapping them hurts readability.
+ignore = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["rec_helper"]

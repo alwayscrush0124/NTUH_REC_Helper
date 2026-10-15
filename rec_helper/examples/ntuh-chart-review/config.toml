@@ -1,0 +1,64 @@
+# Example: 臺大醫院（NTUH REC）回溯性病歷研究，申請簡易審查並免除知情同意。
+# 申請書在 e-REC 線上系統填寫（rech online 產生對照填寫單），附件用官方空白表單填好。
+#
+#   rech init ntuh-chart-review
+#   rech templates          # 下載臺大倫委會官方空白表單（一次即可）
+#   rech all                # Word/PDF 附件 + output/online/ 線上填寫單 + 版面檢查
+#
+# 其他階段：rech amendment / continuing / closure / sae / deviation / other
+
+institution = "ntuh"
+phase = "new"
+
+pi          = "@cv.toml#pi"
+co_pi       = "@cv.toml#co_pi"
+proposal    = "@中文計畫摘要.md"
+online      = "@線上填寫.md"      # e-REC 線上申請書：config 推不出來的答案
+attachments = "@附件填寫.md"      # Word 附件（病歷申請表、同意書、DSMP…）的文字與勾選
+
+[study]
+irb_no      = ""                  # 核准後填 REC 案號
+project_no  = "不適用"
+title_zh    = "第二型糖尿病患者使用 SGLT2 抑制劑與急性腎損傷風險之相關性：單中心回溯性研究"
+title_en    = "SGLT2 Inhibitor Use and the Risk of Acute Kidney Injury in Type 2 Diabetes: A Single-Center Retrospective Study"
+type        = "retrospective"     # retrospective | prospective | clinical_trial | genetic
+design      = "cohort"            # cohort | case_control | cross_sectional | rct | single_arm
+review_type = "expedited"         # exempt（免審）| expedited（簡審）| full_board（一般審查）
+drug_device = false
+genetic     = false
+multicenter = false
+
+[dates]
+study_start       = "2027年01月01日"
+study_end         = "2027年12月31日"
+data_period       = "2020年1月至2024年12月"
+irb_approval_date = ""
+
+[subjects]
+planned_n             = 1200
+consent_waiver        = true
+vulnerable_population = false
+groups = [
+  { name = "SGLT2 抑制劑組", n = 600 },
+  { name = "DPP-4 抑制劑組", n = 600 },
+]
+
+[closure]
+actual_n   = 0
+sae_count  = 0
+specimens  = false
+
+[closure.data_safety]
+deidentified         = true
+encrypted            = true
+retention_years      = 5
+authorized_personnel = "計畫主持人及協同主持人"
+
+[amendment]
+change_description = ""
+affects_consent    = false
+affects_risk       = false
+
+[continuing_review]
+enrollment_status = ""
+deviations        = 0

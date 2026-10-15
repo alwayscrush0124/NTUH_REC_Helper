@@ -1,0 +1,133 @@
+# Institution profile — National Taiwan University Hospital, Research Ethics Committee.
+# The application itself is filled in the REC web system (online.py → copy-paste
+# sheets); attachments are filled on the official blanks (attachments.py).
+id = "ntuh"
+name = "國立臺灣大學醫學院附設醫院"
+name_en = "National Taiwan University Hospital"
+committee = "研究倫理委員會"
+irb_no_label = "REC 案號"
+ehr_name = "臺大醫院電子病歷系統"   # data source wording for chart reviews
+
+# Python module exposing FORM_REGISTRY + PHASE_FORMS (DOCX attachments)
+forms_module = "rec_helper.institutions.ntuh.forms"
+# Python module exposing ONLINE_FORMS (pages of the REC web system)
+online_module = "rec_helper.institutions.ntuh.online"
+
+[submission]
+web = "https://reg.ntuh.gov.tw/RECManageSystem/"   # 臺大醫院倫委會申請暨審查管理系統
+paper = "新案申請書於行政審查後由線上系統列印，主持人及科/部主任簽章後掃描上傳"
+
+# Manual steps listed in checklist.md, per phase
+[checklist]
+new = [
+  "填完 e-REC 線上申請書（output/online/ 對照填寫單），研究領域、團隊帳號、審查費、利益申報在系統內完成",
+  "上傳計畫書（註明版本日期）與 output/ 的 PDF 附件",
+  "保密聲明切結書：主持人及每位研究人員各簽一份",
+  "行政審查後：由系統列印新案申請書，主持人及科/部主任簽章後掃描上傳",
+]
+amendment = ["修正前後對照表逐項填寫修正前/後內容與原因", "上傳修正後文件（註明新版本日期）"]
+continuing = ["填寫本期收案人數與退出人數", "上傳最近一位受試者簽署之同意書（遮蔽個資，保留簽署日期），免除同意者除外"]
+closure = ["確認收案、退出人數與 SAE 件數", "已發表者上傳文獻電子檔"]
+sae = ["依時效通報（藥品致死或危及生命：獲知 7 日內）", "上傳去識別化病歷摘要"]
+deviation = ["獲知日起 15 個工作日內通報", "重大偏差附根本原因分析及改善報告（AF-161）"]
+
+# Official blank attachments: 倫委會官網 → 表單下載
+[templates]
+# 表單下載 is split into one page per submission type (新案、變更、持續審查、結案、SAE、偏差、其他、免審、恩慈)
+index_urls = [
+  "https://www.ntuh.gov.tw/RECO/Fpage.action?muid=5011&fid=5529",
+  "https://www.ntuh.gov.tw/RECO/Fpage.action?muid=5012&fid=5530",
+  "https://www.ntuh.gov.tw/RECO/Fpage.action?muid=5013&fid=5531",
+  "https://www.ntuh.gov.tw/RECO/Fpage.action?muid=5014&fid=5532",
+  "https://www.ntuh.gov.tw/RECO/Fpage.action?muid=5015&fid=5533",
+  "https://www.ntuh.gov.tw/RECO/Fpage.action?muid=5016&fid=5534",
+  "https://www.ntuh.gov.tw/RECO/Fpage.action?muid=5017&fid=5535",
+  "https://www.ntuh.gov.tw/RECO/Fpage.action?muid=5018&fid=5536",
+  "https://www.ntuh.gov.tw/RECO/Fpage.action?muid=4637&fid=5065",
+]
+link_host = "direct"
+form_id_pattern = 'AF-(\d{2,3})'
+form_id_format = "AF{:03d}"
+
+[templates.named_forms]        # official forms without a form number
+"使用病歷資料進行研究申請表" = "MEDREC"
+"中文計畫摘要" = "PROPOSAL"                # generated (no official blank)
+"臨床試驗研究受試者說明及同意書" = "CONSENT"
+"研究受訪者說明及同意書" = "INTERVIEW"
+"資料及安全性監測計畫" = "DSMP"
+"受美國FDA管轄案件確認事項表" = "FDA"
+"藥品資料表" = "DRUGINFO"
+"臨床試驗用藥自行管理自評表" = "DRUGSELF"
+"研究發現之告知方式說明表" = "NGSFORM"
+"NGS研究結果之告知說明暨同意書" = "NGSCONSENT"
+# branch versions (新竹臺大分院、生醫醫院) — longest name wins, so these beat the generic ones
+"臨床試驗研究受試者說明及同意書_新竹醫院" = "CONSENT_HCH"
+"臨床試驗研究受試者說明及同意書_生醫醫院" = "CONSENT_BMH"
+"NGS研究結果之告知說明暨同意書_新竹醫院" = "NGSCONSENT_HCH"
+"NGS研究結果之告知說明暨同意書_生醫醫院" = "NGSCONSENT_BMH"
+"兒童版受試者同意書_新竹醫院" = "CHILD_HCH"
+"兒童版受試者同意書_生醫醫院" = "CHILD_BMH"
+"使用既有計畫剩餘檢體進行研究聲明書" = "LEFTOVER"
+"醫療延展實境系統臨床試驗風險自評檢核表" = "XR"
+# after approval
+"修正前後對照表" = "AMENDTABLE"
+"受試者摘要報告清單(適用持續審查)" = "SAELIST_CR"
+"受試者摘要報告清單(適用結案審查)" = "SAELIST_CL"
+# output names avoid ( ) — the e-REC upload rejects them
+"摘要報告清單_持續審查" = "SAELIST_CR"
+"摘要報告清單_結案" = "SAELIST_CL"
+"醫療器材臨床試驗期中報告" = "DEVICE_INTERIM"
+"新醫療技術人體試驗計畫執行報告表" = "TECH_REPORT"
+"新醫療技術人體試驗計畫計畫成果摘要表" = "TECH_RESULT"
+"藥品臨床試驗死亡通報案件之後續處理追蹤表" = "DEATHFOLLOW"
+"試驗開始執行前必備文件確認核對單" = "PRESTART"
+"研究授權表" = "DELEGATION"
+# 專案進口／恩慈療法
+"恩慈治療案件申請書" = "COMPASS_APP"
+"恩慈治療案件申請自評表" = "COMPASS_SELF"
+"治療計畫書(恩慈療法-藥品)" = "COMPASS_PLAN"
+"專案藥品病人同意書" = "COMPASS_CONSENT"
+"醫療器材樣品」同意書" = "DEVICE_SAMPLE"
+"醫療器材樣品同意書" = "DEVICE_SAMPLE"
+"治療計畫書_恩慈療法" = "COMPASS_PLAN"
+
+[templates.files]              # form id → blank in templates/ntuh/ (.doc converted to .docx)
+AF001 = "AF-001-13臨床試驗研究計畫自評表.docx"
+AF164 = "AF-164-01_0保密聲明切結書 (2).docx"
+MEDREC = "使用病歷資料進行研究申請表.docx"
+CONSENT = "臨床試驗研究受試者說明及同意書.docx"
+INTERVIEW = "研究受訪者說明及同意書.docx"
+DSMP = "資料及安全性監測計畫.docx"
+AF118 = "AF-118-02_1本院計畫主持人主導之跨國研究計畫說明表.docx"
+AF126 = "AF-126-03_1納入易受傷害族群說明表(適用納入未成年人).docx"
+AF127 = "AF-127-02_2納入易受傷害族群說明表(適用納入孕婦或胎兒).docx"
+AF128 = "AF-128-02_2納入易受傷害族群說明表(適用納入生存力不明新生兒).docx"
+AF129 = "AF-129-02_2納入易受傷害族群說明表(適用納入無法存活新生兒).docx"
+AF130 = "AF-130-02_2納入易受傷害族群說明表(適用屬受拘禁人).docx"
+AF135 = "AF-135納入易受傷害族群說明表(適用納入無法行使同意之成人).docx"
+AF143 = "AF-143-02_1網路研究自評表.docx"
+FDA = "17_1受美國FDA管轄案件確認事項表.docx"
+DRUGINFO = "藥品資料表.docx"
+DRUGSELF = "臺大醫院臨床試驗用藥自行管理自評表.docx"
+NGSFORM = "次世代基因定序(NGS)研究發現之告知方式說明表.docx"
+NGSCONSENT = "NGS研究結果之告知說明暨同意書.docx"
+
+# Page setup of the blanks (twips; 567 twips = 1 cm). Forms differ: map them
+# per form in [page.per_form_margins] when onboarding.
+[page]
+width = 11906                  # A4
+height = 16838
+margins = { left = 1418, right = 1418, top = 1418, bottom = 1418 }
+header_distance = 851
+footer_distance = 992
+
+[page.per_form_margins]        # [left, right, top, bottom] where a blank differs
+AF001 = [1134, 1134, 907, 851]
+AF164 = [1077, 1077, 1440, 1440]
+MEDREC = [567, 567, 567, 567]
+
+[font]
+name = "標楷體"
+aliases = ["DFKai-SB", "BiauKai"]   # Windows / macOS names of the same face
+lang = "zh-TW"
+encoding = "cp950"

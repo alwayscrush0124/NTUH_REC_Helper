@@ -1,0 +1,14 @@
+# 研究團隊（config.toml 以 @cv.toml#pi 引用）。dept 寫「單位／職稱」。
+# PI 單位含「新竹」會自動改用新竹臺大分院版同意書（也可在 config.toml 寫 site = "HCH"）。
+
+[pi]
+name    = "王小明"
+name_en = "Hsiao-Ming Wang"
+dept    = "內科部／主治醫師"
+phone   = "02-23123456 分機 00000"
+email   = "example@ntuh.gov.tw"
+
+[[co_pi]]
+name    = "陳小華"
+name_en = "Hsiao-Hua Chen"
+dept    = "內科部／主治醫師"

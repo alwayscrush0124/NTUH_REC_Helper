@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]  # tomllib needs 3.11+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: uv sync
+      - run: uv run ruff check .
+      - run: uv run pytest -q
+
+  # The installed package must work outside the checkout: build the wheel,
+  # install it into a clean venv and run a study from an empty folder.
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.12"
+      - run: uv build
+      - name: Smoke-test the wheel in an empty study folder
+        run: |
+          uv venv /tmp/rech-venv
+          VIRTUAL_ENV=/tmp/rech-venv uv pip install dist/*.whl
+          export PATH=/tmp/rech-venv/bin:$PATH
+          mkdir /tmp/study && cd /tmp/study
+          rech --version
+          rech init ntuh-chart-review
+          test -f .claude/skills/rec/SKILL.md
+          rech institutions
+          rech check
+          rech online
+          rech online --phase closure
+          rech attachments
+          rech dashboard
+          # the attachments fill the committee's blanks, downloaded per study with `rech templates`
