@@ -16,7 +16,7 @@
 需要 Python 3.11 以上與 LibreOffice。
 
 ```bash
-pip install <rec-helper 安裝檔或本資料夾>
+pip install git+https://github.com/alwayscrush0124/NTUH_REC_Helper
 mkdir 我的研究 && cd 我的研究
 rech init ntuh-chart-review     # 複製範例研究
 rech templates                  # 下載倫委會官方空白表單

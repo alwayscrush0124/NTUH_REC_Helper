@@ -32,6 +32,11 @@ dependencies = [
 [project.optional-dependencies]
 pdf = ["pymupdf"]       # rech stamp on PDF files (DOCX stamping needs nothing extra)
 
+[project.urls]
+Homepage = "https://github.com/alwayscrush0124/NTUH_REC_Helper"
+Documentation = "https://github.com/alwayscrush0124/NTUH_REC_Helper/blob/main/docs/NTUH.md"
+Issues = "https://github.com/alwayscrush0124/NTUH_REC_Helper/issues"
+
 [project.scripts]
 rech = "rec_helper.cli:main"
 rec-helper = "rec_helper.cli:main"

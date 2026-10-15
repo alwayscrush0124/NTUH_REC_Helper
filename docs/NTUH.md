@@ -16,9 +16,9 @@
 2. 安裝 **LibreOffice**（轉 PDF、檢查版面用）。
 3. 安裝本工具，三選一：
    ```bash
-   pip install rec-helper                     # 已發布到 PyPI 時
+   pip install git+https://github.com/alwayscrush0124/NTUH_REC_Helper   # 直接從 GitHub（建議）
    pip install <下載的 rec_helper-*.whl>        # 同事給你的安裝檔
-   pip install <本專案資料夾路徑>                 # 直接從原始碼
+   pip install <本專案資料夾路徑>                 # 已下載的原始碼
    ```
 4. 確認環境：`rech doctor`
 
@@ -150,7 +150,7 @@ rech stamp 計畫書.pdf 英文摘要.pdf     # 蓋好版本日期的複本放�
 rech versions                          # 看 版本紀錄.md（每次蓋章都記下檔名、版本、日期、檔案指紋）
 ```
 
-蓋 PDF 需要 `pip install rec-helper[pdf]`；Word 檔不用。
+蓋 PDF 需要另外 `pip install pymupdf`；Word 檔不用。
 
 ## 6. 核准之後
 
